@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vaixellJugador.js" type="module"></script>
+    <script src="./vaixellEnemic.js" type="module"></script>
+    <script src="./vaixell.js" type="module"></script>
+    <script src="./drag.js"></script>
+    <script src="./index.js" type="module"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="my-username">
+        
+    </div>
+    <div id="inici">
+        <form id="form-inici">
+            <h5>Introdueix el teu nom d'usuari</h5>
+            <input id="username" name="username" required>
+            <input type="submit">
+        </form>
+    </div>
+    <div id="joc">
+        <div id = "vaixells">
+            <img id="1" src="vaixell1.png">
+            <img id="2" src="vaixell2.png">
+            <img id="3" src="vaixell3.png">
+            <img id="4" src="vaixell4.png">
+            <img id="5" src="vaixell5.png">
+            <div>Vaixells del jugador restants: <span id = "playerShips"></span></div>
+            <div>Vaixells del enemic restants: <span id = "enemyShips"></span></div>
+            <div><button id="undo">Undo</button></div>
+        </div>
+        <table id="jugador"></table>
+        <table id="enemic"></table>
+    </div>
+    <div id="log">
+
+    </div>
+    <div id="leaderboard">
+        <div id="leaderboard-header">
+            <h2>Leaderboard</h2>
+        </div>
+        <div id="leaderboard-content"></div>
+    </div>
+    <audio id="audio" src="./explosion.mp3"></audio>
+</body>
+</html>

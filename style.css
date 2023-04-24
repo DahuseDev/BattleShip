@@ -1,0 +1,123 @@
+*{
+    margin:0;
+    padding:0;
+}
+#my-username{
+    position: absolute;
+    top: 2%;
+    left: 5%;
+}
+#form-inici{
+    height: 100px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+}
+#inici{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+    top: 0;
+    left: 0;
+    background-color: white;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+table{
+    border-collapse:collapse;
+    text-align: center;
+}
+#jugador td{
+    font-size:10px;
+    width: 20px;
+    height: 20px;
+    border:1px solid black;
+}
+#enemic td{
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border:1px solid black;
+}
+#enemic tr:first-child td,#jugador tr:first-child td{
+    border-bottom: 2px solid black;
+    font-weight: bold;
+}
+#enemic tr:last-child td,#jugador tr:last-child td{
+    border-bottom: 2px solid black;
+    font-weight: bold;
+}
+#enemic tr:last-child td:first-child, #jugador tr:last-child td:first-child{
+    border-bottom:1px solid black;
+}
+#enemic td:first-child, #jugador td:first-child{
+    border-right: 2px solid black;
+    font-weight: bold;
+}
+#enemic td:last-child, #jugador td:last-child{
+    border-right: 2px solid black;
+}
+#enemic tr:first-child td:last-child, #jugador tr:first-child td:last-child{
+    border-right:1px solid black;
+}
+#enemic tr:first-child td:first-child,#jugador tr:first-child td:first-child{
+    border:0px solid black
+}
+body{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+}
+#joc{
+}
+#jugador{
+    position:relative;
+    /* top:px; */
+    left: -88px;
+    bottom: 71px;
+}
+#enemic{
+    bottom: 106px;
+    position:relative;
+    left:109px
+}
+#vaixells{
+    position: relative;
+    left:200px;
+    top:100px;
+}
+#leaderboard{
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: lightblue;
+    top: 10%;
+    right: 5%;
+    position: absolute;
+    width: 300px;
+    height: 80%;
+}
+#leaderboard-header{
+    border-bottom: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px 20px 0px 0px;
+    height: 20%;
+    background-color: aqua;
+}
+#log{
+    top: 10%;
+    left: 5%;
+    position: absolute;
+    width: 300px;
+    height: 80%;
+}
+#log *{
+    width: fit-content;
+}
+#log *:nth-child(even) {
+    background: lightgrey;
+}
