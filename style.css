@@ -2,15 +2,18 @@
     margin:0;
     padding:0;
 }
-#my-username{
+#auth{
     position: absolute;
     top: 2%;
     left: 5%;
 }
+#logout{
+    cursor: pointer;
+}
 #form-inici{
     height: 100px;
     display: flex;
-    justify-content: space-around;
+    justify-content:center;
     align-items: center;
     flex-direction: column;
 }
@@ -89,6 +92,19 @@ body{
     left:200px;
     top:100px;
 }
+#log{
+    top: 10%;
+    left: 5%;
+    position: absolute;
+    width: 300px;
+    height: 80%;
+}
+#log *{
+    width: fit-content;
+}
+#log *:nth-child(even) {
+    background: lightgrey;
+}
 #leaderboard{
     border: 1px solid black;
     border-radius: 20px;
@@ -108,16 +124,45 @@ body{
     height: 20%;
     background-color: aqua;
 }
-#log{
-    top: 10%;
-    left: 5%;
-    position: absolute;
-    width: 300px;
+#leaderboard-content{   
     height: 80%;
 }
-#log *{
-    width: fit-content;
+
+#leaderboard-content > div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10%;
+    border: 1px solid black;
 }
-#log *:nth-child(even) {
-    background: lightgrey;
+
+#leaderboard-content > div:nth-child(even){
+    background-color: aliceblue;
+}
+
+#leaderboard-content > div:nth-child(10n) {
+    border-radius: 0px 0px 20px 20px;
+}
+
+#leaderboard-content > div > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid black;
+    text-align: center;
+    width: 40%;
+    height: 100%;
+    line-height: 100%;
+}
+
+#leaderboard-content > div > div:last-child {
+    border-right: 0px solid black;
+    text-align: center;
+    width: 40%;
+    height: 100%;
+    line-height: 100%;
+}
+
+#leaderboard-content > div > div:nth-child(odd){
+    width: 10%;
 }

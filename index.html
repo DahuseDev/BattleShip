@@ -9,15 +9,17 @@
     <script src="./vaixellEnemic.js" type="module"></script>
     <script src="./vaixell.js" type="module"></script>
     <script src="./drag.js"></script>
+    <script src="./db.js"></script>
     <script src="./index.js" type="module"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="my-username">
-        
+    <div id="auth">
+        <div id="my-username"></div><br>
+        <button id='logout' onclick=>Cambiar nom d'usuari</button>
     </div>
     <div id="inici">
-        <form id="form-inici">
+        <form id="form-inici" autocomplete="off">
             <h5>Introdueix el teu nom d'usuari</h5>
             <input id="username" name="username" required>
             <input type="submit">

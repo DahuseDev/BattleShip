@@ -1,28 +1,45 @@
 import { Vaixell } from "./vaixell.js"
 import { VaixellEnemic } from "./vaixellEnemic.js"
 import { vaixellJugador } from "./vaixellJugador.js"
+Date.prototype.formattedDate = function(){
+    let month =  this.getMonth()+1
+    return this.getDate() + "-" + month + "-" + this.getFullYear();
+}
+
+
+
+
 window.onload = () => {
     comprovaNom()
-    document.getElementById('inici').addEventListener('submit',guardaNom)
+    document.getElementById('form-inici').addEventListener('submit',guardaNom)
     generaJoc()
     setInterval(joc,100)
+    document.getElementById('logout').addEventListener('click',()=>{
+        sessionStorage.removeItem('username');
+        document.getElementById('inici').style.display=""
+    })
+   
+    db.mostrar()
 }
 let username;
+let db = new Database();
 function guardaNom(ev){
+    console.log("aaa")
     ev.preventDefault()
     username = document.getElementById('username').value
+    if(!new RegExp("[A-Z]{1}[a-z]{3,}").test(username)){
+        alert("Introdueix un nom de mínim 4 caràcters i que començi amb majúscula")
+        return
+    }
     sessionStorage.setItem('username',username)
     document.getElementById('inici').style.display="none"
-    document.getElementById('my-username').innerHTML="Username: "+username+"<br><div id='logout' onclick=>Cambiar nom d'usuari</div>"
-    document.getElementById('logout').addEventListener('onclick',()=>{
-        sessionStorage.removeItem('username');
-    })//Tancar sessio
+    document.getElementById('my-username').innerHTML="Username: "+username
 }
 function comprovaNom(){
     if(sessionStorage.getItem('username')){
         username = sessionStorage.getItem('username')
         document.getElementById('inici').style.display="none"
-        document.getElementById('my-username').innerHTML="Username: "+username+"<br><div id='logout'>Cambiar nom d'usuari</div>"
+        document.getElementById('my-username').innerHTML="Username: "+username
 
     }
 }
@@ -99,21 +116,13 @@ let log = []
 
 
 function generaVaixells(taulell) {
-    vaixellsEnemics.push(new VaixellEnemic(2, taulell))
-    vaixellsEnemics.push(new VaixellEnemic(1, taulell))
-    vaixellsEnemics.push(new VaixellEnemic(4, taulell))
-    vaixellsEnemics.push(new VaixellEnemic(5, taulell))
-    vaixellsEnemics.push(new VaixellEnemic(2, taulell))
-    vaixellsEnemics.push(new VaixellEnemic(3, taulell))
-    vaixellsEnemics.push(new VaixellEnemic(1, taulell))
-    console.log(vaixellsEnemics)
-    console.log(JSON.stringify(vaixellsEnemics))
-    console.log(JSON.parse(JSON.stringify(vaixellsEnemics)))
-    console.log(vaixellsEnemics.slice(0,3))
-    vaixellsEnemics.sort((a,b)=>{
-        return a.llargada - b.llargada;
-    })
-    console.log(vaixellsEnemics.slice(0,3))
+    vaixellsEnemics.push(new VaixellEnemic(2, taulell));
+    vaixellsEnemics.push(new VaixellEnemic(1, taulell));
+    vaixellsEnemics.push(new VaixellEnemic(4, taulell));
+    vaixellsEnemics.push(new VaixellEnemic(5, taulell));
+    vaixellsEnemics.push(new VaixellEnemic(2, taulell));
+    vaixellsEnemics.push(new VaixellEnemic(3, taulell));
+    vaixellsEnemics.push(new VaixellEnemic(1, taulell));
     console.log("Numero de barcos de tamany 1: "+vaixellsEnemics.filter((x)=>{return x.llargada == 0}).length)
     console.log("Numero de barcos de tamany 2: "+vaixellsEnemics.filter((x)=>{return x.llargada == 1}).length)
     console.log("Numero de barcos de tamany 3: "+vaixellsEnemics.filter((x)=>{return x.llargada == 2}).length)
@@ -175,7 +184,17 @@ function generaTaulell(taulell, taula, enemic = false) {
 }
 
 function comprovaVictoria(){
-    if(vaixellsEnemics.length == 0) {alert('Has guanyat');fase=2;}
+    if(vaixellsEnemics.length == 0) {
+        alert('Has guanyat');
+        fase=2;
+        let vaixellsRestants = vaixellsJugador.length;
+        
+        let data = new Date().toString();
+        let resultat = {
+            'data': data, 'vaixellsRestants': vaixellsRestants,'username':username
+        };
+        db.desar(resultat);
+    }
     if(vaixellsJugador.length == 0) {alert('Has perdut');fase=2;}
 }
 
@@ -207,15 +226,16 @@ function atacEnemic() {
         let direccio = null;
         console.log("x = "+x+"// y = "+y)
         if((impactesEnemic[y][x+1] && impactesEnemic[y][x+1] == 1) || (impactesEnemic[y][x-1] && impactesEnemic[y][x-1] == 1)) direccio = "x"
-        else if((impactesEnemic[y+1][x] && impactesEnemic[y+1][x] == 1) || (impactesEnemic[y-1][x] && impactesEnemic[y-1][x] == 1)) direccio = "y"
+        else if((impactesEnemic[y+1] && impactesEnemic[y+1][x] == 1) || (impactesEnemic[y-1] && impactesEnemic[y-1][x] == 1)) direccio = "y"
         else direccio = "random"
         console.log("direccio = "+direccio) //random  
         if(direccio == "y"){
             do{
                 y++;
+                if(!impactesEnemic[y]) break;
                 console.log("x = "+x+"// y = "+y+" == "+impactesEnemic[y][x])
             }while(impactesEnemic[y][x] ===1)
-            if(impactesEnemic[y][x] !=0){
+            if(!impactesEnemic[y] || impactesEnemic[y][x] !=0){
                 y = yInicial
                 x = xInicial
                 do{
