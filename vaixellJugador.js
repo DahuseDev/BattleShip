@@ -8,6 +8,7 @@ export class vaixellJugador extends Vaixell{
         this.size = size
     }
 
+    //Comprova si el vaixell ha sigut impactat
     comprovaImpacte(coordX,coordY){
         for(const [index,id] of this.aliveCoords.entries()){
             let c = id.split('-');
@@ -19,6 +20,7 @@ export class vaixellJugador extends Vaixell{
         return false;
     }
 
+    // Comprova si el vaixell ha sigut enfonsat
     comprovaEnfonsat(taulellImpactes){
         let enfonsat = this.aliveCoords.length <1;
         if(enfonsat){
@@ -29,6 +31,9 @@ export class vaixellJugador extends Vaixell{
         }
         return enfonsat;
     }
+
+    // Esborra el vaixell del taulell
+    // Serveix per a quan es tira enrere la jugada de colocar el vaixell
     clean(taulellImpactes){
         this.coords.forEach(id => {
             let x = id.split('-')[1];

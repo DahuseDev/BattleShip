@@ -12,6 +12,7 @@ class Drag {
         this.comprovaNumVaixellsDelMateixTamany()
     }
 
+    //Comprova si ja hi ha el màxim nombre de vaixells d'aquell tamany
     comprovaNumVaixellsDelMateixTamany(){
         let size1 = 2
         let size2 = 2
@@ -26,6 +27,7 @@ class Drag {
         }
     }
 
+    //Funcio que s'executa mentre es fa drag, va fent un hover sobre el taulell.
     gestionaCaselles(click) {
         let id = click.target.id.split('-');
         let max = Math.round(this.size / 2)
@@ -36,13 +38,11 @@ class Drag {
         this.paintCells(coords, max, min)
     }
 
+    //Comprova si la cel·la passada està disponible per a colocar un vaixell
     checkCellAvailability(ids) {
-        //let convergentCells = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 0], [0, 1], [1, -1], [1, 0], [1, 1]]
         let error = null;
-        // console.log(ids)
         ids.forEach((id) => {
             let coords = [id.split("-")[1], id.split("-")[2]]
-            // console.log(coords)
             if (coords[0] < 1 || coords[0] > 10) {
                 error = 'max'
             }
@@ -52,20 +52,11 @@ class Drag {
             if(this.taulell[coords[0]][coords[1]] == 1){
                 error = 'ocupat';
             }
-            // for (const cells of convergentCells) {
-            //     let x = coords[0] * 1 + cells[0] * 1
-            //     let y = coords[1] * 1 + cells[1] * 1
-            //     let notExists = y < 1 || y > 10 || x < 1 || x > 10
-            //     if (notExists) continue
-            //     let cell = this.taulell[x][y]
-            //     console.log(y+" - "+x+" = "+ cell)
-            //     if (cell == 1) {
-            //         error = 'ocupat'
-            //     }
-            // }
         })
         return error;
     }
+
+    //
     paintCells(coords, max = 0, min = 0) {
         let ids = []
         let x = coords[0]
@@ -109,11 +100,7 @@ class Drag {
                     ids.push('j-' + x + '-' + min)
                 }
             }
-            // console.log(ids)
             error = this.checkCellAvailability(ids);
-            // console.log("size: " + this.size)
-            // console.log("max: " + max + " + " + incrementMax)
-            // console.log("max: " + min + " + " + incrementMin)
         } while (1)
 
         ids.forEach((id) => {
@@ -121,6 +108,7 @@ class Drag {
         })
     }
 
+    //Rota la direcció del hover i de colocar el vaixell vertical/horitzontal
     rotate(r) {
         if (this.rotating && !r) {
             this.rotating = !this.rotating
@@ -131,19 +119,17 @@ class Drag {
         }
     }
 
+    //Neteja el color de totes les celles de la taula
     cleanCells() {
         [].forEach.call(document.getElementById('jugador').getElementsByTagName('td'), (cell) => {
             let coord = [cell.id.split('-')[1],cell.id.split('-')[2]]
             if(this.taulell[coord[0]][coord[1]] === 0){
                 cell.style.backgroundColor = "white"
             }
-            // else if(this.taulell[coord[0]][coord[1]] === 1){
-            //     cell.style.backgroundColor = "blue"
-            // }
         })
     }
 
-
+    // Gestiona el drop
     drop(click) {
         let id = click.target.id.split('-');
         
@@ -157,31 +143,9 @@ class Drag {
         if(ids)this.pintaTaulell(ids)
         this.cleanCells()
         return ids;
-        
-        // if (this.childNodes.length < 1) {
-        //     ev.target.appendChild(document.getElementById(data));
-        // }
-        // let horas = document.getElementById("horas").value + "";
-        // ev.target.id = "editing";
-        // let rows = document.querySelectorAll('tr');
-        // let cmpt = 0;
-        // let cellIndex;
-        // rows.forEach((row) => {
-        //     let cells = row.querySelectorAll('td');
-        //     for (let n = 0; n < cells.length; n++) {
-        //         if (cmpt && cellIndex == n) {
-        //             console.log("g")
-        //             cells[n].style.backgroundColor = "red";
-        //         }
-        //         if (cells[n].id.length > 0) {
-        //             cellIndex = n;
-        //             cmpt = horas - 1;
-        //         }
-        //     }
-        //     cmpt--;
-        // });
     }
 
+    //Modifica l'array del taulell per a tenir constancia d'on s'ha colocat el vaixell
     pintaTaulell(ids){
         ids.forEach((id)=>{
             let coord = id.split('-')
@@ -189,6 +153,7 @@ class Drag {
         })
     }
 
+    // Fica la background image del vaixell a les caselles corresponents
     pasteImage(coords, max = 0, min = 0) {
         let ids = []
         let x = coords[0]
@@ -232,11 +197,7 @@ class Drag {
                     ids.push('j-' + x + '-' + min)
                 }
             }
-            // console.log(ids)
             error = this.checkCellAvailability(ids);
-            // console.log("size: " + this.size)
-            // console.log("max: " + max + " + " + incrementMax)
-            // console.log("max: " + min + " + " + incrementMin)
         } while (1)
         let r=1;
         let percentage = 100/this.size

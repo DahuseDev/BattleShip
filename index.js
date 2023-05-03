@@ -35,6 +35,7 @@ function guardaNom(ev){
     document.getElementById('inici').style.display="none"
     document.getElementById('my-username').innerHTML="Username: "+username
 }
+
 function comprovaNom(){
     if(sessionStorage.getItem('username')){
         username = sessionStorage.getItem('username')
@@ -43,6 +44,7 @@ function comprovaNom(){
 
     }
 }
+
 function generaJoc() {
     generaVaixells(taulellEnemic)
     generaTaulell(taulellJugador, document.getElementById('jugador'))
@@ -53,6 +55,7 @@ function generaJoc() {
     });
 }
 
+//Aquesta funcio s'executa cada 100ms 
 function joc() {
     document.getElementById('undo').addEventListener('click',undo)
     document.getElementById('playerShips').innerHTML = vaixellsJugador.length
@@ -66,7 +69,7 @@ let drag = undefined;
 let fase = 0;
 
 
-
+// taulell de les ubicacions dels vaixells del jugador
 let taulellJugador =
     [
         ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
@@ -81,6 +84,8 @@ let taulellJugador =
         ["I", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         ["J", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     ]
+
+// taulell de les ubicacions dels vaixells del enemic
 let taulellEnemic =
     [
         ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
@@ -95,6 +100,8 @@ let taulellEnemic =
         ["I", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         ["J", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     ]
+
+// taulell que veu el enemic, aqui nomes es mostra la informació que el jugador enemic ha descobert
 let impactesEnemic =
 [       // 0 = Unknown // 1 = Tocat // 2 = Enfonsat // 3 = Agua //
     ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
@@ -114,7 +121,7 @@ let vaixellsJugador = []
 
 let log = []
 
-
+//Genera tots els vaixells del enemic
 function generaVaixells(taulell) {
     vaixellsEnemics.push(new VaixellEnemic(2, taulell));
     vaixellsEnemics.push(new VaixellEnemic(1, taulell));
@@ -136,11 +143,13 @@ function generaVaixells(taulell) {
     }))
 }
 
+//Afegeix un missatge al log, si hi ha mes de 20 missatges es treu un, en format cua
 function afegirLog(player,x,y,result){
     log.push([player,x,y,result])
     if(log.length>20) log.shift()
 }
 
+//Actualitza el log a partir de l'array
 function reloadLog(){
     let letters = ["A","B","C","D","E","F","G","H","I","J"]
     let hitTypes = ["null","Tocat","Enfonsat","Aigua"]
@@ -152,6 +161,7 @@ function reloadLog(){
     })
 }
 
+//Genera el taulell del jugador
 function generaTaulell(taulell, taula, enemic = false) {
     taula.innerHTML="";
     taulell.forEach((fila, fIndex) => {
@@ -173,9 +183,6 @@ function generaTaulell(taulell, taula, enemic = false) {
                 }
                 cell.innerHTML = ""
                 cell.style.backgroundColor = "white"
-                // if(casella===1){
-                //     cell.style.backgroundColor="red"
-                // }
             } else {
                 cell.innerHTML = casella
             }
@@ -183,6 +190,7 @@ function generaTaulell(taulell, taula, enemic = false) {
     })
 }
 
+//Comprova si hi ha un guanyador
 function comprovaVictoria(){
     if(vaixellsEnemics.length == 0) {
         alert('Has guanyat');
@@ -198,6 +206,7 @@ function comprovaVictoria(){
     if(vaixellsJugador.length == 0) {alert('Has perdut');fase=2;}
 }
 
+
 function clickCasella(click) {
     if(fase !=1){
         return;
@@ -212,7 +221,8 @@ function clickCasella(click) {
 }
 
 
-
+//L'enemic ataca al taulell del jugador
+// Prioritza enfonsar els vaixells que ha trobat i encara no estàn enfonsats
 function atacEnemic() {
     let convergentCells = [[-1, 0],[0, -1],[0, 1], [1, 0]]
     let x,y;
@@ -308,6 +318,7 @@ function atacEnemic() {
     console.log(impactesEnemic)
 }
 
+//L'enemic busca si hi ha algun vaixell que encara no estigui enfonsat
 function buscaVaixell(){
     let coords = [];
     impactesEnemic.forEach((fila,y)=>{
@@ -321,6 +332,7 @@ function buscaVaixell(){
     return coords;
 }
 
+//Comprova el resultat de l'atac del jugador
 function comprovaCasella(id) {
     let coords = id.split("-")
     let shipCoords = []
@@ -383,12 +395,7 @@ function gestionarDrop(ev) {
     }
 }
 
-function pintaNouVaixellJugador(ids){
-    ids.forEach((id)=>{
-        let coords = id.split('-')
-        taulellJugador[coords[1]][coords[2]] = 1
-    })
-}
+// En la fase de colocar vaixells, permet al jugador esborrar l'últim vaixell que ha colocat, en format pila
 function undo(){
     let vaixell = vaixellsJugador[vaixellsJugador.length-1];
     console.log(vaixell)

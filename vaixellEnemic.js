@@ -10,12 +10,14 @@ export class VaixellEnemic extends Vaixell{
             this.startCoords['y'] = this.randomCoord();
             this.startCoords['x'] = this.randomCoord();
             this.direccio = Math.random()-0.5>0;
-        }while(this.comprovaDisponibilitat())
+        }while(this.comprovaDisponibilitat()) // Itera fins que troba una coordenada on pot colocar el vaixell
         this.pintaVaixell()
     }
     
+    // Funcio dinàmica per a retornar una coordenada aleatoria entre 1 i 10
     randomCoord = new Function("return Math.floor(Math.random() * (11 - 1) + 1);");
     
+    // Modifica l'array de vaixells per a que es mostr
     pintaVaixell(){
         this.coords = this.getCoords();
         this.aliveCoords = this.getCoords();
@@ -24,6 +26,7 @@ export class VaixellEnemic extends Vaixell{
         })
     }
 
+    // Reprodueix audio d'impacte i comprova si ha impactat el vaixell
     comprovaImpacte(coordX,coordY){
         let audio = document.getElementById('audio');
         audio.currentTime = 0;
@@ -37,10 +40,12 @@ export class VaixellEnemic extends Vaixell{
         return false;
     }
 
+    // Comprova si aquest vaixell està enfonsat
     comprovaEnfonsat(){
         return this.aliveCoords.length <1;
     }
     
+    // Retorna les coordenades d'aquest vaixell
     getCoords(){
         let tempCoords = []
         if(this.direccio){
@@ -54,6 +59,8 @@ export class VaixellEnemic extends Vaixell{
         }
         return tempCoords;
     }
+
+    // Comprova si el vaixell es pot crear a la posicio que s'està provant
     comprovaDisponibilitat(){
         let coordsCaselles=[[-1,-1],[-1,0],[-1,1],[0,-1],[0,0],[0,1],[1,-1],[1,0],[1,1]]
         if(this.direccio){

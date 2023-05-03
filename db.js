@@ -28,12 +28,16 @@ class Database{
             });
         };
     }
+
+    // Desa el resultat del jugador a indexedDB
     desar(resultat) {
         
         let memory = db.transaction("resultats", "readwrite").objectStore('resultats');
         memory.add(resultat);
         this.mostrar(memory);
     }
+
+    // retorna els 10 millors resultats de indexedDB
     mostrar(){
         let query = db.transaction("resultats", "readwrite").objectStore('resultats').getAll()
         query.onsuccess = ()=>{
